@@ -90,7 +90,7 @@ it there please and try using the nvidia-docker as described above.
     $ docker run -it -p 8888:8888 $CUDA_SO $DEVICES gcr.io/tensorflow/tensorflow:latest-gpu
 
 # License
-?
+MIT
 
 # Credits
 This docker and Makefile layout was originally based on the [docker starter example in the keras repo](https://github.com/keras-team/keras/tree/master/docker). THe Docker file in particular has been customised to make it easier to see groups of related packages and add remove as necessary. But the makefile and instructions in this readme are pretty much as-is and lovely. The original repository available under [MIT here](https://github.com/keras-team/keras/blob/master/LICENSE)
