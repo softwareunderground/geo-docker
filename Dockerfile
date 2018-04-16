@@ -1,8 +1,8 @@
 # set out our GPU lib versions
 # note even though we only specify the major version for cuDNN it will always pull
-ARG cuda_version=9.0
-ARG cudnn_version=7
-FROM nvidia/cuda:${cuda_version}-cudnn${cudnn_version}-devel
+ENV CUDA_VERSION 9.0
+ENV CUDNN_VERSION 7.0.5.15
+FROM nvidia/cuda:${CUDA_VERSION}-devel
 
 # Install system packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -18,12 +18,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # fix cudnn version - right now we need to downgrade cuDNN for cuda 9
 # expect to be fiddling with this a lot as we move up the cuda versions 
-USER root
-RUN apt-get update && apt-get install -y --allow-downgrades --no-install-recommends \
-libcudnn7=7.0.5.15-1+cuda9.0 \
-libcudnn7-dev=7.0.5.15-1+cuda9.0 && \
-rm -rf /var/lib/apt/lists/*
-RUN apt-get update
+LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
+RUN apt-get update && apt-get install -y --no-install-recommends \ 
+        libcudnn7=$CUDNN_VERSION-1+cuda9.0 \
+        libcudnn7-dev=$CUDNN_VERSION-1+cuda9.0 && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install conda
 ENV CONDA_DIR /opt/conda
