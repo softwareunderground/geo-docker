@@ -16,8 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       wget && \
     rm -rf /var/lib/apt/lists/*
 
-# fix cudnn version - right now we need to downgrade cuDNN for cuda 9
-# expect to be fiddling with this a lot as we move up the cuda versions 
+# Install correct CuDNN version for tensorflow
 LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
 RUN apt-get update && apt-get install -y --no-install-recommends \ 
         libcudnn7=$CUDNN_VERSION-1+cuda9.0 \
