@@ -1,4 +1,4 @@
-# geo-docker
+# geo-docker [![Build Status](https://travis-ci.org/JesperDramsch/geo-docker.svg?branch=master)](https://travis-ci.org/JesperDramsch/geo-docker)
 A docker image fully loaded with Geo* & ML related packages.
 
  1. clone this repo into a folder *alongside* other repos or folders with code you want to execute in
