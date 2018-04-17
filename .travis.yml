@@ -1,0 +1,15 @@
+sudo: true
+dist: trusty
+
+jobs:
+  include:
+    - stage: build docker image
+      script:
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker build -t geo-docker -f DOCKERFILE .
+      - docker images
+      - docker tag geo-docker $DOCKER_USERNAME/travis-ci-build-stages-demo
+      - docker push $DOCKER_USERNAME/geo-docker
+    - stage: test
+      script: docker run --rm $DOCKER_USERNAME/geo-docker python -c "import keras;quit()"
+    
