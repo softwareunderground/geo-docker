@@ -96,6 +96,14 @@ RUN pip install \
     jupyter-tensorboard \
     livelossplot
 
+### Torch (Because you're special)
+RUN conda install -y -c pytorch \
+    pytorch=0.3.1 \
+    torchvision=0.2.0 \
+    && conda clean -ya
+
+RUN pip install git+https://github.com/pytorch/tnt.git@master
+
 # keras
 RUN git clone git://github.com/keras-team/keras.git /src && pip install -e /src[tests] && \
     pip install git+git://github.com/keras-team/keras.git
