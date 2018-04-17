@@ -1,8 +1,12 @@
 # set out our GPU lib versions
 # note even though we only specify the major version for cuDNN it will always pull
-ENV CUDA_VERSION 9.0
+
+ARG CUDA_V=9.0
+
+FROM nvidia/cuda:${CUDA_V}-devel
+
+ENV CUDA_VERSION ${CUDA_V}
 ENV CUDNN_VERSION 7.0.5.15
-FROM nvidia/cuda:${CUDA_VERSION}-devel
 
 # Install system packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
