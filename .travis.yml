@@ -6,7 +6,7 @@ jobs:
     - stage: build docker image
       script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker build -t geo-docker -f DOCKERFILE .
+      - docker build -t geo-docker -f Dockerfile .
       - docker images
       - docker tag geo-docker $DOCKER_USERNAME/geo-docker
       - docker push $DOCKER_USERNAME/geo-docker
