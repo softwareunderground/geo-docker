@@ -9,7 +9,7 @@ jobs:
       - docker build -t geo-docker -f Dockerfile .
       - docker images
       - docker tag geo-docker softwareunderground/geo-docker
-      - docker push softwareunderground/geo-docker:travisCI
+      - docker push softwareunderground/geo-docker
     - stage: test
       script: docker run --rm softwareunderground/geo-docker python -c "import keras;quit()"
     
