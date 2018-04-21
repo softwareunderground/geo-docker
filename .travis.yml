@@ -5,7 +5,7 @@ jobs:
   include:
     - stage: build docker image
       script:
-      - echo "$DOCKER_PASSWORD" | docker login -e "$DOCKER_EMAIL" -u "$DOCKER_USERNAME" --password-stdin hub.docker.com
+      - echo "$DOCKER_PASSWORD" | docker login -e "$DOCKER_EMAIL" -u "$DOCKER_USERNAME" --password-stdin docker.com
       - docker build -t geo-docker -f Dockerfile .
       - docker images
       - docker tag geo-docker softwareunderground/geo-docker
