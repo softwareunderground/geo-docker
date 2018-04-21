@@ -13,8 +13,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libgl1-mesa-glx \
       libhdf5-dev \
       openmpi-bin \
-      wget && \
+      cuda-command-line-tools-9-0 \
+      wget && \ 
     rm -rf /var/lib/apt/lists/*
+
+ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}/usr/local/cuda/extras/CUPTI/lib64
 
 # fix cudnn version - right now we need to downgrade cuDNN for cuda 9
 # expect to be fiddling with this a lot as we move up the cuda versions 
@@ -49,6 +52,7 @@ ARG python_version=3.6
 
 RUN conda update -n base conda
 RUN conda install -y python=${python_version}
+RUN conda config --set always_yes yes
 RUN pip install --upgrade pip
 RUN pip install https://cntk.ai/PythonWheel/GPU/cntk-2.1-cp36-cp36m-linux_x86_64.whl
 RUN pip install --no-cache-dir Cython
@@ -129,6 +133,9 @@ ENV PYTHONPATH='/src/:$PYTHONPATH'
 
 WORKDIR /src
 
+# Tensorboard
+EXPOSE 6006
+# Jupyter / iPython
 EXPOSE 8888
 
 CMD jupyter notebook --port=8888 --ip=0.0.0.0
