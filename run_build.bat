@@ -1,1 +1,1 @@
-docker build -t geoml -f $(DOCKER_FILE) .
+docker build -t geoml -f Dockerfile .
