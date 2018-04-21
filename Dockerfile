@@ -34,6 +34,11 @@ RUN wget --quiet --no-check-certificate https://repo.continuum.io/miniconda/Mini
     rm Miniconda3-4.4.10-Linux-x86_64.sh && \
     echo export PATH=$CONDA_DIR/bin:'$PATH' > /etc/profile.d/conda.sh
 
+RUN conda update -n base conda
+RUN conda update openssl ca-certificates certifi
+RUN conda config --add channels conda-forge
+RUN apt-get install -y ca-certificates
+
 # Install Goodies
 ENV NB_USER geo
 ENV NB_UID 1000
@@ -47,7 +52,6 @@ USER $NB_USER
 
 ARG python_version=3.6
 
-RUN conda update -n base conda
 RUN conda install -y python=${python_version}
 RUN pip install --upgrade pip
 RUN pip install https://cntk.ai/PythonWheel/GPU/cntk-2.1-cp36-cp36m-linux_x86_64.whl
@@ -97,9 +101,7 @@ RUN pip install \
     livelossplot
 
 ### Torch (Because you're special)
-RUN conda install -y -c pytorch \
-    pytorch=0.3.1 \
-    torchvision=0.2.0 \
+RUN conda install pytorch torchvision cuda90 -c pytorch \
     && conda clean -ya
 
 RUN pip install git+https://github.com/pytorch/tnt.git@master
