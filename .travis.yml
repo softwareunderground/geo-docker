@@ -2,24 +2,24 @@ sudo: true
 dist: trusty
 
 language: python
-python: '3.6'
 
 env:
   - KERAS_BACKEND=tensorflow
   - KERAS_BACKEND=theano
-env:
-  - PYTHON_VERSION=2.7
-  - PYTHON_VERSION=3.6
+python:
+  - 2.7
+  - 3.6
 
 jobs:
   include:
     - stage: build docker image
       script:
+      - PYTHON_VERSION = $(python -c "import sys; print('{0[0]}.{0[1]}'.format(sys.version_info[:2]))")
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - docker build --build-arg python_version=$(PYTHON_VERSION) -t geo-docker -f Dockerfile .
       - docker images
       - docker tag geo-docker softwareunderground/geo-docker
       - docker push softwareunderground/geo-docker
     - stage: test
-      script: nvidia-docker run --user="geo" --env KERAS_BACKEND=$(BACKEND) --rm softwareunderground/geo-docker python -c "import keras;quit()"
+      script: docker run --user="geo" --env KERAS_BACKEND=$(KERAS_BACKEND) --rm softwareunderground/geo-docker ipython;quit()
     
