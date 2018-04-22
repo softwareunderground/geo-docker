@@ -12,6 +12,8 @@ python:
 
 install:
   - sudo apt-get update
+script:
+  - echo "Let's do this!"
 
 jobs:
   include:
