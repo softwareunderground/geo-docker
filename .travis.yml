@@ -2,13 +2,14 @@ sudo: true
 dist: trusty
 
 language: python
+python: '3.6'
 
-python:
-  - '3.6'
-  - '2.7'
 env:
   - KERAS_BACKEND=tensorflow
   - KERAS_BACKEND=theano
+env:
+  - PYTHON_VERSION=2.7
+  - PYTHON_VERSION=3.6
 
 jobs:
   include:
