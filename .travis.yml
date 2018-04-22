@@ -10,20 +10,18 @@ python:
   - 2.7
   - 3.6
 
+install:
+  - sudo apt-get update
+
 jobs:
   include:
     - stage: build docker image
-      install:
-      - PYTHON_VERSION = $(python -c "import sys; print('{0[0]}.{0[1]}'.format(sys.version_info[:2]))")
-      - echo "Building image with $(PYTHON_VERSION)"
       script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker build --build-arg python_version=$PYTHON_VERSION -t geo-docker -f Dockerfile .
+      - docker build --build-arg python_version=$TRAVIS_PYTHON_VERSION -t geo-docker -f Dockerfile .
       - docker images
       - docker tag geo-docker softwareunderground/geo-docker
       - docker push softwareunderground/geo-docker
     - stage: test
-      install:
-      - echo "Testing image with $(PYTHON_VERSION)"
       script: docker run --user="geo" --env KERAS_BACKEND=$KERAS_BACKEND --rm softwareunderground/geo-docker ipython;quit()
     
