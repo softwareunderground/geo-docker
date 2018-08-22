@@ -102,6 +102,18 @@ RUN pip install \
     jupyter-tensorboard \
     livelossplot
 
+## TPOT plus Dependencies
+RUN pip install \
+    deap \
+    update_checker \
+    tqdm \
+    stopit \
+    xgboost \
+    scikit-mdr \
+    skrebate \
+    tpot
+
+
 ### Torch (Because you're special)
 RUN conda install pytorch torchvision cuda90 -c pytorch \
     && conda clean -ya
