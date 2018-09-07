@@ -1,0 +1,34 @@
+sudo: true
+dist: trusty
+
+language: python
+
+env:
+  - KERAS_BACKEND=tensorflow
+  - KERAS_BACKEND=theano
+python:
+  - 2.7
+  - 3.6
+services:
+  - docker
+stage: Build Docker image
+
+install: docker build --build-arg python_version=$TRAVIS_PYTHON_VERSION -t geo-docker -f Dockerfile .
+
+stage: Test
+
+script:  docker run -it -p 8888:8888 --env KERAS_BACKEND=$KERAS_BACKEND geo-docker 
+
+jobs:
+  include:
+    - stage: Deploy to Docker.io
+      provider: script
+      before_script: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      script: 
+      - docker images
+      - docker tag geo-docker softwareunderground/geo-docker
+      - docker push softwareunderground/geo-docker
+      branch: master
+      python: 3.6
+      env: KERAS_BACKEND=tensorflow
+  
