@@ -1,3 +1,6 @@
+**DEPRECATED please use https://github.com/softwareunderground/subsurface-ml-docker**
+
+
 # geo-docker [![Build Status](https://travis-ci.org/JesperDramsch/geo-docker.svg?branch=master)](https://travis-ci.org/JesperDramsch/geo-docker)
 A docker image fully loaded with Geo* & ML related packages.
 
